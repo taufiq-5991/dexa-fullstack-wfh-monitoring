@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
-import { DatabaseModule } from '../../database/database.module';
+import { User } from '@/database/entities/user.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 // separation of employee data from user login data is an industry-standard database architecture pattern in HR systems
 @Module({
-  imports: [DatabaseModule],
+  imports: [TypeOrmModule.forFeature([User])],
   controllers: [UsersController],
   providers: [UsersService],
 })
