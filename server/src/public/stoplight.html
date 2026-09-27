@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>WFH Monitoring API</title>
+    <script
+      type="module"
+      src="https://unpkg.com/@stoplight/elements/web-components.min.js"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@stoplight/elements/styles.min.css"
+    />
+    <style>
+      .sl-elements-api > div {
+        max-height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <elements-api
+      apiDescriptionUrl="./openapi.json"
+      router="hash"
+      layout="sidebar"
+    ></elements-api>
+  </body>
+</html>
