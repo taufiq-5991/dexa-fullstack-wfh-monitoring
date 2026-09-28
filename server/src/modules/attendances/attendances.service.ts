@@ -1,9 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { IsNull, Repository } from 'typeorm';
 import { Attendance } from '../../database/entities/attendance.entity';
 import { CreateAttendanceDto } from './dtos/create-attendance.dto';
-
+import { ClockInAttendanceDto, ClockOutAttendanceDto } from './dtos/partial-attendance.dto';
+import * as dayjs from 'dayjs';
 @Injectable()
 export class AttendancesService {
   constructor(
@@ -11,9 +12,38 @@ export class AttendancesService {
     private readonly attendanceRepository: Repository<Attendance>,
   ) {}
 
-  async create(createAttendanceDto: CreateAttendanceDto): Promise<Attendance> {
-    const attendance = this.attendanceRepository.create(createAttendanceDto);
-    return await this.attendanceRepository.save(attendance);
+  async clockIn(clockInAttendanceDto: ClockInAttendanceDto): Promise<Attendance> {
+    // disable duplicate attendance
+    const today = dayjs().startOf('day').toDate();
+    clockInAttendanceDto.attendanceDate = today;
+    const todayUnfinished = await this.attendanceRepository.findOne({where: {
+      employeeId: clockInAttendanceDto.employeeId,
+      attendanceDate: today,
+    }});
+    if (!todayUnfinished) {
+      const attendance = this.attendanceRepository.create(clockInAttendanceDto);
+      return await this.attendanceRepository.save(attendance);
+    } else {
+      throw new BadRequestException('Attendance already exists for today!');
+    }
+  }
+  // clock out
+  async clockOut(clockOutAttendanceDto: ClockOutAttendanceDto): Promise<ClockOutAttendanceDto> {
+    // only allow clock out today's unfinished attendance
+    const today = dayjs().startOf('day').toDate();
+    clockOutAttendanceDto.attendanceDate = today;
+    const todayUnfinished = await this.attendanceRepository.findOne({where: {
+      employeeId: clockOutAttendanceDto.employeeId,
+      attendanceDate: today,
+      clockOut: IsNull(),
+    }});
+    // clock out by updating today's unfinished clockOut
+    if (todayUnfinished) {
+      await this.attendanceRepository.update(todayUnfinished.id, clockOutAttendanceDto);
+      return clockOutAttendanceDto;
+    } else {
+      throw new NotFoundException('No unfinished attendance found for today!');
+    }
   }
 
   async findAll(): Promise<Attendance[]> {

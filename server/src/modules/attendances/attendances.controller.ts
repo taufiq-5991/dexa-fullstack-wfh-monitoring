@@ -5,13 +5,14 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ErrorResponse } from '@/common/response/error.response';
 import { ApiResponseWrapper } from '@/common/decorators/swagger/wrapper-response.decorator';
 import { Attendance } from '@/database/entities/attendance.entity';
+import { ClockInAttendanceDto, ClockOutAttendanceDto } from './dtos/partial-attendance.dto';
 
 @ApiTags('Attendances')
 @Controller('attendances')
 export class AttendancesController {
   constructor(private readonly attendancesService: AttendancesService) {}
 
-  @ApiOperation({ summary: 'Log attendance' })
+  @ApiOperation({ summary: 'Clock in attendance' })
   @ApiResponseWrapper({
     type: Attendance,
   })
@@ -20,9 +21,23 @@ export class AttendancesController {
     statusCode: HttpStatus.UNPROCESSABLE_ENTITY,
     message: 'Error',
   })
-  @Post()
-  async create(@Body() createAttendanceDto: CreateAttendanceDto): Promise<Attendance>  {
-    return await this.attendancesService.create(createAttendanceDto);
+  @Post('clock-in')
+  async clockIn(@Body() clockInAttendanceDto: ClockInAttendanceDto): Promise<Attendance>  {
+    return await this.attendancesService.clockIn(clockInAttendanceDto);
+  }
+
+  @ApiOperation({ summary: 'Clock out attendance' })
+  @ApiResponseWrapper({
+    type: Attendance,
+  })
+  @ApiResponseWrapper({
+    type: ErrorResponse,
+    statusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+    message: 'Error',
+  })
+  @Post('clock-out')
+  async clockOut(@Body() clockOutAttendanceDto: ClockOutAttendanceDto): Promise<ClockOutAttendanceDto>  {
+    return await this.attendancesService.clockOut(clockOutAttendanceDto);
   }
   
   @ApiOperation({ summary: 'Get list of attendances' })

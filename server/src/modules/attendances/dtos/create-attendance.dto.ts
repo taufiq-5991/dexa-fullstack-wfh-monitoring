@@ -10,9 +10,6 @@ export class CreateAttendanceDto {
     @IsString()
     employeeId: string;
 
-    @ApiProperty({
-        description: 'attendanceDate',
-    })
     @IsNotEmpty()
     @IsDate()
     attendanceDate: Date;
@@ -37,6 +34,14 @@ export class CreateAttendanceDto {
     @IsNotEmpty()
     @IsString()
     photoPath: string;
+
+    @ApiProperty({
+        description: 'photoPathOut',
+        example: ''
+    })
+    @IsNotEmpty()
+    @IsString()
+    photoPathOut: string;
 
     @IsEnum(['Present', 'Late'])
     status: 'Present' | 'Late';

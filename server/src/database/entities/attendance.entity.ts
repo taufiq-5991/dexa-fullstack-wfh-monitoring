@@ -24,6 +24,9 @@ export class Attendance {
     @Column({ name: 'photo_path', type: 'varchar', length: 255 })
     photoPath: string;
 
+    @Column({ name: 'photo_path_out', type: 'varchar', length: 255 })
+    photoPathOut: string;
+
     @Column({ name: 'status', type: 'enum', enum: ['Present', 'Late'], default: 'Present' })
     status: 'Present' | 'Late';
 
