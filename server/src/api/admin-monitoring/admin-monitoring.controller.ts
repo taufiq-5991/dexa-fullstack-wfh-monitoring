@@ -11,7 +11,7 @@ import { CreateEmployeeDto } from '@/common/dtos';
 @ApiTags('Admin Monitoring')
 @Controller('admin-monitoring')
 export class AdminMonitoringController {
-  constructor(private readonly adminMonitoringService: AdminMonitoringService) {}
+  constructor(private readonly adminMonitoringService: AdminMonitoringService) { }
 
 
   @ApiOperation({ summary: 'Hash password from string' })
@@ -25,7 +25,11 @@ export class AdminMonitoringController {
   })
   @Post('hash-password')
   async hashPassword(@Body() rawPassword: HashPasswordDto): Promise<string> {
-    return this.adminMonitoringService.hashPassword(rawPassword);
+    try {
+      return this.adminMonitoringService.hashPassword(rawPassword);
+    } catch (e) {
+      throw e;
+    }
   }
 
   @ApiOperation({ summary: 'Create new employee and user data' })
@@ -39,7 +43,11 @@ export class AdminMonitoringController {
   })
   @Post()
   async create(@Body() createEmployeeUserDto: CreateEmployeeUserDto): Promise<CreateEmployeeUserDto> {
-    return this.adminMonitoringService.create(createEmployeeUserDto);
+    try {
+      return this.adminMonitoringService.create(createEmployeeUserDto);
+    } catch (e) {
+      throw e;
+    }
   }
 
   @ApiOperation({ summary: 'Get list of employees with user ID & role' })
@@ -54,7 +62,11 @@ export class AdminMonitoringController {
   })
   @Get()
   async findAll(): Promise<CreateEmployeeDto[]> {
-    return this.adminMonitoringService.findAll();
+    try {
+      return this.adminMonitoringService.findAll();
+    } catch (e) {
+      throw e;
+    }
   }
 
   @ApiOperation({ summary: 'Get employee detail with user ID, role, and attendances' })
@@ -68,7 +80,11 @@ export class AdminMonitoringController {
   })
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<CreateEmployeeDto> {
-    return this.adminMonitoringService.findOne(id);
+    try {
+      return this.adminMonitoringService.findOne(id);
+    } catch (e) {
+      throw e;
+    }
   }
 
   @ApiOperation({ summary: 'Update employee and user data by employee ID' })
@@ -82,7 +98,11 @@ export class AdminMonitoringController {
   })
   @Put(':id')
   async update(@Param('id') id: string, @Body() updateEmployeeUserDto: CreateEmployeeUserDto): Promise<any> {
-    return this.adminMonitoringService.update(id, updateEmployeeUserDto);
+    try {
+      return this.adminMonitoringService.update(id, updateEmployeeUserDto);
+    } catch (e) {
+      throw e;
+    }
   }
 
 
@@ -96,7 +116,11 @@ export class AdminMonitoringController {
     message: 'Error',
   })
   @Delete(':id')
-  async remove(@Param('id') id: string): Promise<{result: string}> {
-    return this.adminMonitoringService.remove(id);
+  async remove(@Param('id') id: string): Promise<{ result: string }> {
+    try {
+      return this.adminMonitoringService.remove(id);
+    } catch (e) {
+      throw e;
+    }
   }
 }
