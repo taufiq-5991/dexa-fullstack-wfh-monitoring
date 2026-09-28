@@ -1,21 +1,39 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, IsDate, IsEnum } from 'class-validator';
 
 export class CreateAttendanceDto {
+    @ApiProperty({
+        description: 'employeeId',
+        example: ''
+    })
     @IsNotEmpty()
     @IsString()
     employeeId: string;
 
+    @ApiProperty({
+        description: 'attendanceDate',
+    })
     @IsNotEmpty()
     @IsDate()
     attendanceDate: Date;
 
+    @ApiProperty({
+        description: 'clockIn',
+    })
     @IsNotEmpty()
-    @IsString()
-    clockIn: string;
+    @IsDate()
+    clockIn: Date;
 
-    @IsString()
-    clockOut: string;
+    @ApiProperty({
+        description: 'clockOut',
+    })
+    @IsDate()
+    clockOut: Date;
 
+    @ApiProperty({
+        description: 'photoPath',
+        example: ''
+    })
     @IsNotEmpty()
     @IsString()
     photoPath: string;
