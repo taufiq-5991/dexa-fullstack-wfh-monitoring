@@ -23,7 +23,6 @@ async function bootstrap() {
     .setTitle('WFH Monitoring API')
     .setDescription('API documentation for the WFH Monitoring microservice')
     .setVersion('1.0')
-    .addServer(`http://172.20.5.250:${process.env.HTTP_PORT ?? 3060}`, 'Local Server Dev')
     .addServer(`http://localhost:${process.env.HTTP_PORT ?? 3060}`, 'Localhost')
     .build();
   const document = SwaggerModule.createDocument(app, options);
