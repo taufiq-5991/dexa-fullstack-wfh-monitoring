@@ -144,3 +144,4 @@ vite.config.ts.timestamp-*
 
 # Open API for Stoplight
 server/src/public/openapi.json
+openapi.json*

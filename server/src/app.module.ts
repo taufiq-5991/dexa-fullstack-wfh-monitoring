@@ -7,6 +7,7 @@ import { DatabaseModule } from './database/database.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
+import { AdminMonitoringModule } from './api/admin-monitoring/admin-monitoring.module';
 
 @Module({
   imports: [
@@ -22,6 +23,9 @@ import { ConfigModule } from '@nestjs/config';
       },
     }),
     DatabaseModule,
+    // API modules
+    AdminMonitoringModule,
+    // master data modules
     RolesModule,
     UsersModule,
     EmployeesModule,
