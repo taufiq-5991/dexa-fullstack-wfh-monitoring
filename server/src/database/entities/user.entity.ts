@@ -11,6 +11,9 @@ export class User {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
+    @Column({name: 'employee_id', unique: true, nullable: false })
+    employeeId: string;
+
     @Column({name: 'username', unique: true, nullable: false })
     username: string;
 

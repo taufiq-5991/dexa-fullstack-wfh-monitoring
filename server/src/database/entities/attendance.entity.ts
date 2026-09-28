@@ -9,6 +9,9 @@ export class Attendance {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
+    @Column({name: 'employee_id', nullable: false })
+    employeeId: string;
+
     @Column({ name: 'attendance_date', type: 'date' })
     attendanceDate: Date;
 
@@ -26,8 +29,4 @@ export class Attendance {
 
     @CreateDateColumn({name: 'created_at'})
     createdAt: Date;
-
-    // relations
-    @ManyToOne(() => Employee, employee => employee.attendances)
-    employee: Employee;
 }

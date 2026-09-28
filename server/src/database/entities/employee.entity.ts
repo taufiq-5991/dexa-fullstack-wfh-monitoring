@@ -41,7 +41,4 @@ export class Employee {
     // relations
     @OneToMany(() => User, users => users.employee)
     users: User[];
-    
-    @OneToMany(() => Attendance, attendances => attendances.employee)
-    attendances: Attendance[];
 }
