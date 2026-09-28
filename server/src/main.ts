@@ -23,6 +23,17 @@ async function bootstrap() {
     .setTitle('WFH Monitoring API')
     .setDescription('API documentation for the WFH Monitoring microservice')
     .setVersion('1.0')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT', // Optional hint for users
+        name: 'JWT',
+        description: 'Enter JWT token',
+        in: 'header',
+      },
+      'JWT-auth', // This is the security name/key reference
+    )
     .addServer(`http://localhost:${process.env.HTTP_PORT ?? 3060}`, 'Localhost')
     .build();
   const document = SwaggerModule.createDocument(app, options);

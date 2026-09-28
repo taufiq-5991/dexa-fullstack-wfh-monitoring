@@ -1,11 +1,14 @@
-import { Controller, Get, Post, Body, Param, Delete, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, HttpStatus, UseGuards } from '@nestjs/common';
 import { RolesService } from './roles.service';
 import { Role } from '../../database/entities/role.entity';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ApiResponseWrapper } from '@/common/decorators/swagger/wrapper-response.decorator';
 import { ErrorResponse } from '@/common/response/error.response';
+import { JwtAuthGuard } from '@/common/guards/jwt-auth.guard';
 
 @ApiTags('Roles')
+@ApiBearerAuth('JWT-auth')
+@UseGuards(JwtAuthGuard)
 @Controller('roles')
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}

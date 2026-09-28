@@ -1,6 +1,8 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, HttpStatus, UseGuards, Request, UnauthorizedException } from '@nestjs/common';
+import { Request as ExpressRequest } from 'express';
+import { JwtAuthGuard } from '@/common/guards/jwt-auth.guard';
 import { Employee } from '../../database/entities/employee.entity';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ApiResponseWrapper } from '@/common/decorators/swagger/wrapper-response.decorator';
 import { ErrorResponse } from '@/common/response/error.response';
 import { CreateEmployeeUserDto } from './dtos/create-employee-user.dto';
@@ -9,10 +11,11 @@ import { HashPasswordDto } from './dtos/hash-password.dto';
 import { CreateEmployeeDto } from '@/common/dtos';
 
 @ApiTags('Admin Monitoring')
+@ApiBearerAuth('JWT-auth')
+@UseGuards(JwtAuthGuard)
 @Controller('admin-monitoring')
 export class AdminMonitoringController {
-  constructor(private readonly adminMonitoringService: AdminMonitoringService) { }
-
+  constructor(private readonly adminMonitoringService: AdminMonitoringService) {}
 
   @ApiOperation({ summary: 'Hash password from string' })
   @ApiResponseWrapper({
@@ -24,9 +27,16 @@ export class AdminMonitoringController {
     message: 'Error',
   })
   @Post('hash-password')
-  async hashPassword(@Body() rawPassword: HashPasswordDto): Promise<string> {
+  async hashPassword(@Request() req: ExpressRequest & { user: { role: string } }, @Body() rawPassword: HashPasswordDto): Promise<string> {
     try {
-      return this.adminMonitoringService.hashPassword(rawPassword);
+      // only HRD Admins can access this
+      const role: string = req.user.role;
+      console.log({role})
+      if (role !== 'Admin HRD') {
+        throw new UnauthorizedException('You are unauthorized to access this');
+      } else {
+        return this.adminMonitoringService.hashPassword(rawPassword);
+      }
     } catch (e) {
       throw e;
     }
@@ -42,9 +52,16 @@ export class AdminMonitoringController {
     message: 'Error',
   })
   @Post()
-  async create(@Body() createEmployeeUserDto: CreateEmployeeUserDto): Promise<CreateEmployeeUserDto> {
+  async create(@Request() req: ExpressRequest & { user: { role: string } }, @Body() createEmployeeUserDto: CreateEmployeeUserDto): Promise<CreateEmployeeUserDto> {
     try {
-      return this.adminMonitoringService.create(createEmployeeUserDto);
+      // only HRD Admins can access this
+      const role: string = req.user.role;
+      console.log({role})
+      if (role !== 'Admin HRD') {
+        throw new UnauthorizedException('You are unauthorized to access this');
+      } else {
+        return this.adminMonitoringService.create(createEmployeeUserDto);
+      }
     } catch (e) {
       throw e;
     }
@@ -61,9 +78,16 @@ export class AdminMonitoringController {
     message: 'Error',
   })
   @Get()
-  async findAll(): Promise<CreateEmployeeDto[]> {
+  async findAll(@Request() req: ExpressRequest & { user: { role: string } }): Promise<CreateEmployeeDto[]> {
     try {
-      return this.adminMonitoringService.findAll();
+      // only HRD Admins can access this
+      const role: string = req.user.role;
+      console.log({role})
+      if (role !== 'Admin HRD') {
+        throw new UnauthorizedException('You are unauthorized to access this');
+      } else {
+        return this.adminMonitoringService.findAll();
+      }
     } catch (e) {
       throw e;
     }
@@ -79,9 +103,16 @@ export class AdminMonitoringController {
     message: 'Error',
   })
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<CreateEmployeeDto> {
+  async findOne(@Request() req: ExpressRequest & { user: { role: string } }, @Param('id') id: string): Promise<CreateEmployeeDto> {
     try {
-      return this.adminMonitoringService.findOne(id);
+      // only HRD Admins can access this
+      const role: string = req.user.role;
+      console.log({role})
+      if (role !== 'Admin HRD') {
+        throw new UnauthorizedException('You are unauthorized to access this');
+      } else {
+        return this.adminMonitoringService.findOne(id);
+      }
     } catch (e) {
       throw e;
     }
@@ -97,14 +128,20 @@ export class AdminMonitoringController {
     message: 'Error',
   })
   @Put(':id')
-  async update(@Param('id') id: string, @Body() updateEmployeeUserDto: CreateEmployeeUserDto): Promise<any> {
+  async update(@Request() req: ExpressRequest & { user: { role: string } }, @Param('id') id: string, @Body() updateEmployeeUserDto: CreateEmployeeUserDto): Promise<any> {
     try {
-      return this.adminMonitoringService.update(id, updateEmployeeUserDto);
+      // only HRD Admins can access this
+      const role: string = req.user.role;
+      console.log({role})
+      if (role !== 'Admin HRD') {
+        throw new UnauthorizedException('You are unauthorized to access this');
+      } else {
+        return this.adminMonitoringService.update(id, updateEmployeeUserDto);
+      }
     } catch (e) {
       throw e;
     }
   }
-
 
   @ApiOperation({ summary: 'Delete employee, user data, and attendances' })
   @ApiResponseWrapper({
@@ -116,9 +153,16 @@ export class AdminMonitoringController {
     message: 'Error',
   })
   @Delete(':id')
-  async remove(@Param('id') id: string): Promise<{ result: string }> {
+  async remove(@Request() req: ExpressRequest & { user: { role: string } }, @Param('id') id: string): Promise<{ result: string }> {
     try {
-      return this.adminMonitoringService.remove(id);
+      // only HRD Admins can access this
+      const role: string = req.user.role;
+      console.log({role})
+      if (role !== 'Admin HRD') {
+        throw new UnauthorizedException('You are unauthorized to access this');
+      } else {
+        return this.adminMonitoringService.remove(id);
+      }
     } catch (e) {
       throw e;
     }

@@ -50,6 +50,11 @@ export class AttendancesService {
     return await this.attendanceRepository.find();
   }
 
+  async findByEmployeeId(employeeId: string): Promise<Attendance[]> {
+    return await this.attendanceRepository.find({where: {employeeId: employeeId}});
+  }
+
+
   async findOne(id: string): Promise<Attendance> {
     const attendanceData = await this.attendanceRepository.findOneBy({ id });
     if (attendanceData) {

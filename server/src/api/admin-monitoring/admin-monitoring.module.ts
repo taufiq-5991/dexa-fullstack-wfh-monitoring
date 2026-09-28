@@ -12,6 +12,7 @@ import { AttendancesModule } from '@/modules/attendances/attendances.module';
 import { EmployeesModule } from '@/modules/employees/employees.module';
 import { AdminMonitoringController } from './admin-monitoring.controller';
 import { AdminMonitoringService } from './admin-monitoring.service';
+import { JwtService } from '@nestjs/jwt';
 
 // separation of employee data from user login data is an industry-standard database architecture pattern in HR systems
 @Module({
@@ -30,6 +31,7 @@ import { AdminMonitoringService } from './admin-monitoring.service';
     ],
     providers: [
         AdminMonitoringService,
+        JwtService,
         // master data
         EmployeesService,
         UsersService,
