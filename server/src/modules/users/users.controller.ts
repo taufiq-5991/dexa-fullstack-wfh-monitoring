@@ -45,13 +45,13 @@ export class UsersController {
     return this.usersService.findOne(id);
   }
 
-  @Put(':id')
-  async update(@Param('id') id: string, @Body() updateUserDto: CreateUserDto): Promise<User> {
-    return this.usersService.update(id, updateUserDto);
-  }
+  // @Put(':id')
+  // async update(@Param('id') id: string, @Body() updateUserDto: CreateUserDto): Promise<User> {
+  //   return this.usersService.update(id, updateUserDto);
+  // }
 
-  @Delete(':id')
-  async remove(@Param('id') id: string): Promise<void> {
-    return this.usersService.remove(id);
-  }
+  // @Delete(':id')
+  // async remove(@Param('id') id: string): Promise<void> {
+  //   return this.usersService.remove(id);
+  // }
 }
