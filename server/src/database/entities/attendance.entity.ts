@@ -9,21 +9,25 @@ export class Attendance {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column({ type: 'date' })
+    @Column({ name: 'attendance_date', type: 'date' })
     attendanceDate: Date;
 
-    @Column({ type: 'datetime' })
+    @Column({ name: 'clock_in', type: 'datetime' })
     clockIn: Date;
 
-    @Column({ type: 'varchar', length: 255 })
+    @Column({ name: 'clock_out', type: 'datetime' })
+    clockOut: Date;
+
+    @Column({ name: 'photo_path', type: 'varchar', length: 255 })
     photoPath: string;
 
-    @Column({ type: 'enum', enum: ['Present', 'Late'], default: 'Present' })
+    @Column({ name: 'status', type: 'enum', enum: ['Present', 'Late'], default: 'Present' })
     status: 'Present' | 'Late';
 
-    @CreateDateColumn()
+    @CreateDateColumn({name: 'created_at'})
     createdAt: Date;
 
+    // relations
     @ManyToOne(() => Employee, employee => employee.attendances)
     employee: Employee;
 }

@@ -3,19 +3,22 @@ import { IsNotEmpty, IsString, IsDate, IsEnum } from 'class-validator';
 export class CreateAttendanceDto {
     @IsNotEmpty()
     @IsString()
-    employee_id: string;
+    employeeId: string;
 
     @IsNotEmpty()
     @IsDate()
-    attendance_date: Date;
+    attendanceDate: Date;
 
     @IsNotEmpty()
     @IsString()
-    clock_in: string;
+    clockIn: string;
+
+    @IsString()
+    clockOut: string;
 
     @IsNotEmpty()
     @IsString()
-    photo_path: string;
+    photoPath: string;
 
     @IsEnum(['Present', 'Late'])
     status: 'Present' | 'Late';

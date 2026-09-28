@@ -2,16 +2,16 @@ import { IsEmail, IsNotEmpty, IsOptional, IsPhoneNumber, IsString } from 'class-
 
 export class CreateEmployeeDto {
   @IsNotEmpty()
-  employee_code: string;
+  employeeCode: string;
 
   @IsNotEmpty()
-  full_name: string;
+  fullName: string;
 
   @IsEmail()
   email: string;
 
   @IsOptional()
-  phone_number?: string;
+  phoneNumber?: string;
 
   @IsOptional()
   @IsString()

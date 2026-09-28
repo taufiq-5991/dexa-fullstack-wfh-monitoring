@@ -11,26 +11,27 @@ export class User {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @OneToOne(() => Employee, { nullable: true })
-    @JoinColumn({ name: 'employee_id' })
-    employee: Employee;
-
-    @Column({ unique: true, nullable: false })
+    @Column({name: 'username', unique: true, nullable: false })
     username: string;
 
-    @Column()
-    password_hash: string;
+    @Column({name: 'password_hash'})
+    passwordHash: string;
 
-    @Column({unique: false, nullable: false })
-    role_id: string;
+    @Column({name: 'role_id', unique: false, nullable: false })
+    roleId: string;
 
-    @ManyToOne(() => Role, role => role.id, { nullable: false })
+    @CreateDateColumn({name: 'created_at'})
+    createdAt: Date;
+
+    @UpdateDateColumn({name: 'updated_at'})
+    updatedAt: Date;
+
+    // relations
+    @OneToOne(() => Employee, { nullable: true })
+    @JoinColumn({ name: 'employee_id', referencedColumnName: 'id' })
+    employee: Employee;
+
+    @OneToOne(() => Role, role => role.id, { nullable: false })
     @JoinColumn([{ name: 'role_id', referencedColumnName: 'id' }])
     role: Role;
-
-    @CreateDateColumn()
-    created_at: Date;
-
-    @UpdateDateColumn()
-    updated_at: Date;
 }

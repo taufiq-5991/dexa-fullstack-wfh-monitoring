@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { Attendance } from './attendance.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { User } from './user.entity';
 
 // entities are stored on database folder instead of modules because an entity may depend on each other
 // separation of employee data from user login data is an industry-standard database architecture pattern in HR systems
@@ -10,32 +11,36 @@ export class Employee {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column({ type: 'varchar', length: 20, unique: true })
-    employee_code: string;
+    @Column({ name: 'employee_code', type: 'varchar', length: 20, unique: true })
+    employeeCode: string;
 
-    @Column({ type: 'varchar', length: 100 })
-    full_name: string;
+    @Column({ name: 'full_name', type: 'varchar', length: 100 })
+    fullName: string;
 
-    @Column({ type: 'varchar', length: 100, unique: true })
+    @Column({ name: 'email', type: 'varchar', length: 100, unique: true })
     email: string;
 
-    @Column({ type: 'varchar', length: 15, nullable: true })
-    phone_number: string;
+    @Column({ name: 'phone_number', type: 'varchar', length: 15, nullable: true })
+    phoneNumber: string;
 
-    @Column({ type: 'varchar', length: 50, nullable: true })
+    @Column({ name: 'department', type: 'varchar', length: 50, nullable: true })
     department: string;
 
-    @Column({ type: 'varchar', length: 50, nullable: true })
+    @Column({ name: 'position', type: 'varchar', length: 50, nullable: true })
     position: string;
 
-    @Column({ type: 'enum', enum: ['Active', 'Inactive'], default: 'Active' })
+    @Column({ name: 'status', type: 'enum', enum: ['Active', 'Inactive'], default: 'Active' })
     status: 'Active' | 'Inactive';
 
-    @CreateDateColumn()
-    created_at: Date;
+    @CreateDateColumn({name: 'created_at'})
+    createdAt: Date;
 
-    @UpdateDateColumn()
-    updated_at: Date;
+    @UpdateDateColumn({name: 'updated_at'})
+    updatedAt: Date;
+
+    // relations
+    @OneToMany(() => User, users => users.employee)
+    users: User[];
     
     @OneToMany(() => Attendance, attendances => attendances.employee)
     attendances: Attendance[];
