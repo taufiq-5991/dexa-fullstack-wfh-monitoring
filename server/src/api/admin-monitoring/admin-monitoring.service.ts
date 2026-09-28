@@ -2,12 +2,12 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { UpdateEmployeeUserDto } from './dtos/update-employee-user.dto';
 import { CreateEmployeeUserDto } from './dtos/create-employee-user.dto';
 import { CreateEmployeeDto, CreateUserDto } from '@/common/dtos';
-import * as bcrypt from "bcryptjs";
 import { HashPasswordDto } from './dtos/hash-password.dto';
 import { EmployeesService } from '@/modules/employees/employees.service';
 import { UsersService } from '@/modules/users/users.service';
 import { RolesService } from '@/modules/roles/roles.service';
 import { AttendancesService } from '@/modules/attendances/attendances.service';
+import * as bcrypt from "bcryptjs";
 
 @Injectable()
 export class AdminMonitoringService {
