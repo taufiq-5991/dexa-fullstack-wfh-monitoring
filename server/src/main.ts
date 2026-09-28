@@ -5,6 +5,8 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { DocsMiddleware } from './common/middlewares/swagger/docs.middleware';
 import { ConfigService } from '@nestjs/config';
 import { VersioningType } from '@nestjs/common';
+import { writeFileSync } from 'fs';
+import { join } from 'path';
 
 async function bootstrap() {
   // Create the hybrid application (HTTP + Microservice)
@@ -27,6 +29,10 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
   app.use('/public/stoplight.html', new DocsMiddleware().use);
+
+  // Save the OpenAPI spec to a file
+  const outputPath = join(__dirname, '..', 'src', 'public', 'openapi.json');
+  writeFileSync(outputPath, JSON.stringify(document, null, 2));
 
   // Start the HTTP server
   await app.listen(process.env.HTTP_PORT ?? 3060); // HTTP server runs on port 3000
