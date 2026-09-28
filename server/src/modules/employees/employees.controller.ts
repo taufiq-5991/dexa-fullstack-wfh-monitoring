@@ -40,7 +40,7 @@ export class EmployeesController {
     return this.employeesService.findAll();
   }
 
-  @ApiOperation({ summary: 'Get employee detail with attendances' })
+  @ApiOperation({ summary: 'Get employee detail' })
   @ApiResponseWrapper({
     type: Employee,
   })
