@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { createEmployee } from '../../api/employeeApi';
 import { getRoles } from '../../api/rolesApi';
+import { useNavigate } from 'react-router-dom';
 
 const EmployeeForm = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: '',
     username: '',
@@ -27,7 +29,6 @@ const EmployeeForm = () => {
         console.error('Failed to fetch roles:', error);
       }
     };
-
     fetchRoles();
   }, []);
 
@@ -40,6 +41,7 @@ const EmployeeForm = () => {
     try {
       await createEmployee(formData);
       alert('Employee created successfully!');
+      navigate('/admin-monitoring');
     } catch (error) {
       console.error('Failed to create employee:', error);
       setError('Failed to create employee. Please try again.'); // Set error message
