@@ -9,7 +9,7 @@ const DashboardPage = () => {
 
   return (
     <div>
-      <h1>Welcome, {user?.name}</h1>
+      <h1>Welcome, {user?.fullName ?? user?.username}</h1>
       <h2>Your Attendances</h2>
       <AttendanceList />
       <div>
