@@ -48,7 +48,7 @@ const EmployeeDetail = ({ employee }) => {
       <br />
       <h3>Attendances</h3>
       <table style={tableStyles}>
-        <thead>
+        <thead style={headerStyles}>
           <tr>
             <th>Date</th>
             <th>Clock In</th>
@@ -57,8 +57,8 @@ const EmployeeDetail = ({ employee }) => {
         </thead>
         <tbody>
           {employee.attendances && employee.attendances.length > 0 ? (
-            employee.attendances.map((attendance) => (
-              <tr key={attendance.id}>
+            employee.attendances.map((attendance, index) => (
+              <tr key={attendance.id} style={index % 2 === 0 ? rowStyles.even : rowStyles.odd}>
                 <td>{attendance.attendanceDate}</td>
                 <td>
                   {attendance?.clockIn ? (
@@ -106,6 +106,21 @@ const tableStyles = {
   width: '100%',
   borderCollapse: 'collapse',
   marginTop: '20px',
+};
+
+const headerStyles = {
+  backgroundColor: '#989898',
+  color: '#fff',
+  textAlign: 'left',
+};
+
+const rowStyles = {
+  even: {
+    backgroundColor: '#f9f9f9',
+  },
+  odd: {
+    backgroundColor: '#fff',
+  },
 };
 
 export default EmployeeDetail;

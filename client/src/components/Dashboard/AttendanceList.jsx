@@ -24,7 +24,7 @@ const AttendanceList = () => {
   return (
     <div>
       <table style={tableStyles}>
-        <thead>
+        <thead style={headerStyles}>
           <tr>
             <th>Date</th>
             <th>Clock In</th>
@@ -32,8 +32,8 @@ const AttendanceList = () => {
           </tr>
         </thead>
         <tbody>
-          {attendances.map((attendance) => (
-            <tr key={attendance.id}>
+          {attendances.map((attendance, index) => (
+            <tr key={attendance.id} style={index % 2 === 0 ? rowStyles.even : rowStyles.odd}>
               <td>{attendance.attendanceDate}</td>
               <td>
                 {attendance?.clockIn ? (
@@ -52,7 +52,7 @@ const AttendanceList = () => {
               <td>
                 {attendance?.clockOut ? (
                   <a
-                  href={`${process.env.REACT_APP_API_URL}/${attendance.photoPathOut}`}
+                    href={`${process.env.REACT_APP_API_URL}/${attendance.photoPathOut}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{ textDecoration: 'none', color: 'blue', cursor: 'pointer' }}
@@ -76,6 +76,21 @@ const tableStyles = {
   width: '80%',
   borderCollapse: 'collapse',
   marginTop: '20px',
+};
+
+const headerStyles = {
+  backgroundColor: '#989898',
+  color: '#fff',
+  textAlign: 'left',
+};
+
+const rowStyles = {
+  even: {
+    backgroundColor: '#f9f9f9',
+  },
+  odd: {
+    backgroundColor: '#fff',
+  },
 };
 
 export default AttendanceList;

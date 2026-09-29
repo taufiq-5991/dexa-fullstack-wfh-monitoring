@@ -5,11 +5,12 @@ import EmployeeForm from './EmployeeForm';
 
 const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
-  const [selectedEmployee, setSelectedEmployee] = useState(null); // State for selected employee
-  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false); // State for detail modal visibility
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false); // State for edit modal visibility
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // State for delete confirmation modal
-  const [isLoading, setIsLoading] = useState(false); // Loading state for actions
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
 
   useEffect(() => {
     const fetchEmployees = async () => {
@@ -24,12 +25,25 @@ const EmployeeList = () => {
     fetchEmployees();
   }, []);
 
+  const handleSort = (key) => {
+    const direction = sortConfig.key === key && sortConfig.direction === 'asc' ? 'desc' : 'asc';
+    setSortConfig({ key, direction });
+
+    const sortedEmployees = [...employees].sort((a, b) => {
+      if (a[key] < b[key]) return direction === 'asc' ? -1 : 1;
+      if (a[key] > b[key]) return direction === 'asc' ? 1 : -1;
+      return 0;
+    });
+
+    setEmployees(sortedEmployees);
+  };
+
   const handleViewDetail = async (employee) => {
     try {
       setIsLoading(true);
-      const data = await getEmployeesDetail(employee.id); // Fetch employee details and attendances
-      setSelectedEmployee(data); // Set the fetched data
-      setIsDetailModalOpen(true); // Open detail modal
+      const data = await getEmployeesDetail(employee.id);
+      setSelectedEmployee(data);
+      setIsDetailModalOpen(true);
     } catch (error) {
       console.error('Failed to fetch employee details:', error);
     } finally {
@@ -38,21 +52,21 @@ const EmployeeList = () => {
   };
 
   const handleEdit = (employee) => {
-    setSelectedEmployee(employee); // Set selected employee for editing
-    setIsEditModalOpen(true); // Open edit modal
+    setSelectedEmployee(employee);
+    setIsEditModalOpen(true);
   };
 
   const handleDelete = (employee) => {
-    setSelectedEmployee(employee); // Set selected employee for deletion
-    setIsDeleteModalOpen(true); // Open delete confirmation modal
+    setSelectedEmployee(employee);
+    setIsDeleteModalOpen(true);
   };
 
   const confirmDelete = async () => {
     try {
       setIsLoading(true);
-      await deleteEmployee(selectedEmployee.id); // Delete employee
-      setEmployees(employees.filter((emp) => emp.id !== selectedEmployee.id)); // Remove from list
-      setIsDeleteModalOpen(false); // Close delete modal
+      await deleteEmployee(selectedEmployee.id);
+      setEmployees(employees.filter((emp) => emp.id !== selectedEmployee.id));
+      setIsDeleteModalOpen(false);
       alert('Employee deleted successfully!');
     } catch (error) {
       console.error('Failed to delete employee:', error);
@@ -72,19 +86,34 @@ const EmployeeList = () => {
   return (
     <div>
       <table style={tableStyles}>
-        <thead>
+        <thead style={headerStyles}>
           <tr>
-            <th>Name</th>
-            <th>Employee Code</th>
-            <th>Department</th>
-            <th>Position</th>
-            <th>Status</th>
+            <th>
+              Name
+              <a onClick={() => handleSort('fullName')}>↕️</a>
+            </th>
+            <th>
+              Employee Code
+              <a onClick={() => handleSort('employeeCode')}>↕️</a>
+            </th>
+            <th>
+              Department
+              <a onClick={() => handleSort('department')}>↕️</a>
+            </th>
+            <th>
+              Position
+              <a onClick={() => handleSort('position')}>↕️</a>
+            </th>
+            <th>
+              Status
+              <a onClick={() => handleSort('status')}>↕️</a>
+            </th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {employees.map((employee) => (
-            <tr key={employee.id}>
+          {employees.map((employee, index) => (
+            <tr key={employee.id} style={index % 2 === 0 ? rowStyles.even : rowStyles.odd}>
               <td>{employee.fullName}</td>
               <td>{employee.employeeCode}</td>
               <td>{employee.department}</td>
@@ -120,8 +149,8 @@ const EmployeeList = () => {
           <div style={modalContentStyles}>
             <EmployeeForm
               onClose={closeModals}
-              initialData={selectedEmployee} // Pass initial data to prefill form
-              isEditMode={true} // Indicate edit mode
+              initialData={selectedEmployee}
+              isEditMode={true}
             />
           </div>
         </div>
@@ -149,6 +178,21 @@ const tableStyles = {
   width: '100%',
   borderCollapse: 'collapse',
   marginTop: '20px',
+};
+
+const headerStyles = {
+  backgroundColor: '#989898',
+  color: '#fff',
+  textAlign: 'left',
+};
+
+const rowStyles = {
+  even: {
+    backgroundColor: '#f9f9f9',
+  },
+  odd: {
+    backgroundColor: '#fff',
+  },
 };
 
 const modalStyles = {
