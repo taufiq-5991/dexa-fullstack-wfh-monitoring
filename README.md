@@ -1,4 +1,4 @@
-#WFH Monitoring System
+# WFH Monitoring System
 
 ## Description
 This project is a WFH Monitoring System running on React frontend and NestJS Microservices backend that connects to a MySQL database hosted on Aiven cloud.
