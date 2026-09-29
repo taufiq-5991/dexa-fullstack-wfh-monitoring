@@ -9,21 +9,28 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     if (token) {
-      getAuthApi(token).then(setUser).catch(() => logout());
+      getAuthApi(token)
+        .then(setUser)
+        .catch(() => logout());
     }
   }, [token]);
 
   const login = async (username, password) => {
-    const { token, user } = await loginApi(username, password);
-    setToken(token);
-    setUser(user);
-    localStorage.setItem('token', token);
+    try {
+      const { token, user } = await loginApi({ username, password });
+      setToken(token);
+      setUser(user);
+      localStorage.setItem('token', token); // Save token to localStorage
+    } catch (error) {
+      console.error('Login failed:', error);
+      throw error; // Rethrow error to handle it in the login form
+    }
   };
 
   const logout = () => {
     setToken(null);
     setUser(null);
-    localStorage.removeItem('token');
+    localStorage.removeItem('token'); // Remove token from localStorage
   };
 
   return (

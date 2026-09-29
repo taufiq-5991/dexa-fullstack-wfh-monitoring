@@ -10,7 +10,7 @@ const Sidebar = ({ isOpen }) => {
       <nav>
         <ul>
           <li><Link to="/dashboard">Dashboard</Link></li>
-          {user?.role === 'Admin' && (
+          {user?.role === 'Admin HRD' && (
             <>
               <li><Link to="/admin-monitoring">Admin Monitoring</Link></li>
             </>
