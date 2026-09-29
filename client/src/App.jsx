@@ -14,7 +14,7 @@ const App = () => {
       <Router>
         <Header  style={{ margin: '25px', width: '90%' }} />
         <Navbar/>
-        <main style={{ margin: '25px', width: '90%'}}>
+        <main style={{ margin: '25px'}}>
           <Routes>
             <Route path="/login" element={<LoginPage />} />
             <Route

@@ -23,6 +23,12 @@ body {
     cursor: pointer;
   }
   
+  .button-container {
+    display: flex;
+    gap: 25px;
+    justify-content: right;
+  }
+  
   form {
     display: flex;
     flex-direction: column;

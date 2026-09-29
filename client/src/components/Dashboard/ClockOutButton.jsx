@@ -37,7 +37,7 @@ const ClockOutButton = () => {
       formData.append('employeeId', employeeId);
       formData.append('photo', new File([blob], 'photo.jpg', { type: 'image/jpeg' })); // Add photo as a file
 
-      await axios.post(`${process.env.REACT_APP_API_URL}/attendances/clock-out`, formData, {
+      await axios.post(`${process.env.REACT_APP_API_URL}/${process.env.REACT_APP_API_URL_VERSION}/attendances/clock-out`, formData, {
         headers: {
           Authorization: `${token}`,
         },

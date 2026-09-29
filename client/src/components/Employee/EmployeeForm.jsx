@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { createEmployee } from '../../api/employeeApi';
 import { getRoles } from '../../api/rolesApi';
-import { useNavigate } from 'react-router-dom';
 
-const EmployeeForm = () => {
-  const navigate = useNavigate();
+const EmployeeForm = ({ onClose }) => {
   const [formData, setFormData] = useState({
     fullName: '',
     username: '',
@@ -41,7 +39,7 @@ const EmployeeForm = () => {
     try {
       await createEmployee(formData);
       alert('Employee created successfully!');
-      navigate('/admin-monitoring');
+      window.location.reload(); // Reload the page after submission
     } catch (error) {
       console.error('Failed to create employee:', error);
       setError('Failed to create employee. Please try again.'); // Set error message
@@ -54,40 +52,46 @@ const EmployeeForm = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input name="fullName" placeholder="Full Name" onChange={handleChange} />
-        <input name="employeeCode" placeholder="Employee Code" onChange={handleChange} />
-        <input name="username" placeholder="Username" onChange={handleChange} />
-        <input type="password" name="password" placeholder="Password" onChange={handleChange} />
-        <input name="email" placeholder="Email" onChange={handleChange} />
-        <input name="phoneNumber" placeholder="Phone Number" onChange={handleChange} />
-        <input name="department" placeholder="Department" onChange={handleChange} />
-        <input name="position" placeholder="Position" onChange={handleChange} />
-        
-        {/* Roles Dropdown */}
-        <select name="roleId" value={formData.roleId} onChange={handleChange}>
-          <option value="">Select Role</option>
-          {roles.map((role) => (
-            <option key={role.id} value={role.id}>
-              {role.roleName}
-            </option>
-          ))}
-        </select>
+    <div style={modalStyles}>
+      <div style={modalContentStyles}>
+        <form onSubmit={handleSubmit}>
+          <h2>Create Employee</h2>
+          <input name="fullName" placeholder="Full Name" onChange={handleChange} />
+          <input name="employeeCode" placeholder="Employee Code" onChange={handleChange} />
+          <input name="username" placeholder="Username" onChange={handleChange} />
+          <input type="password" name="password" placeholder="Password" onChange={handleChange} />
+          <input name="email" placeholder="Email" onChange={handleChange} />
+          <input name="phoneNumber" placeholder="Phone Number" onChange={handleChange} />
+          <input name="department" placeholder="Department" onChange={handleChange} />
+          <input name="position" placeholder="Position" onChange={handleChange} />
 
-        <button type="submit">Create Employee</button>
-      </form>
+          {/* Roles Dropdown */}
+          <select name="roleId" value={formData.roleId} onChange={handleChange}>
+            <option value="">Select Role</option>
+            {roles.map((role) => (
+              <option key={role.id} value={role.id}>
+                {role.roleName}
+              </option>
+            ))}
+          </select>
 
-      {/* Error Modal */}
-      {isErrorModalOpen && (
-        <div style={modalStyles}>
-          <div style={modalContentStyles}>
-            <h2>Error</h2>
-            <p>{error}</p>
-            <button onClick={closeModal}>Close</button>
+          <div style={{ marginTop: '20px' }}>
+            <button type="submit">Submit</button>
+            <button type="button" onClick={onClose}>Cancel</button>
           </div>
-        </div>
-      )}
+        </form>
+
+        {/* Error Modal */}
+        {isErrorModalOpen && (
+          <div style={errorModalStyles}>
+            <div style={errorModalContentStyles}>
+              <h2>Error</h2>
+              <p>{error}</p>
+              <button onClick={closeModal}>Close</button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
@@ -106,6 +110,26 @@ const modalStyles = {
 };
 
 const modalContentStyles = {
+  backgroundColor: '#fff',
+  padding: '20px',
+  borderRadius: '8px',
+  textAlign: 'center',
+  width: '400px',
+};
+
+const errorModalStyles = {
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  width: '100%',
+  height: '100%',
+  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+};
+
+const errorModalContentStyles = {
   backgroundColor: '#fff',
   padding: '20px',
   borderRadius: '8px',

@@ -7,6 +7,7 @@ import { ConfigService } from '@nestjs/config';
 import { VersioningType } from '@nestjs/common';
 import { writeFileSync } from 'fs';
 import { join } from 'path';
+import * as express from 'express';
 
 async function bootstrap() {
   // Create the hybrid application (HTTP + Microservice)
@@ -18,6 +19,9 @@ async function bootstrap() {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true, // Allow cookies and credentials
   });
+
+  // enable view uploads
+  app.use('/uploads', express.static(join(process.cwd(), 'uploads')));
 
   app.enableVersioning({
     type: VersioningType.URI,

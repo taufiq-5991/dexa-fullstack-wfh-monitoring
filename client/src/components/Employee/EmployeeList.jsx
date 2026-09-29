@@ -32,7 +32,6 @@ const EmployeeList = () => {
 
   return (
     <div>
-      <h2>Employee List</h2>
       <table style={tableStyles}>
         <thead>
           <tr>
@@ -53,7 +52,9 @@ const EmployeeList = () => {
               <td>{employee.position}</td>
               <td>{employee.status}</td>
               <td>
-                <button onClick={() => handleEmployeeClick(employee)}>View Detail</button>
+                <button style={{marginRight: '12px'}} onClick={() => handleEmployeeClick(employee)}>View Detail</button>
+                <button style={{marginRight: '12px'}}>Edit</button>
+                <button>Delete</button>
               </td>
             </tr>
           ))}

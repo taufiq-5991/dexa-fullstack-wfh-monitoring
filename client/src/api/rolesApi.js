@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = `${process.env.REACT_APP_API_URL}/${process.env.REACT_APP_API_URL_VERSION}`;
 
 export const getRoles = async () => {
   const response = await axios.get(`${API_URL}/roles`, {
