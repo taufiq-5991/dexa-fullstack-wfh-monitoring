@@ -148,10 +148,13 @@ export class AdminMonitoringController {
     message: 'Error',
   })
   @Delete(':id')
-  async remove(@Request() req: ExpressRequest & { user: { id: string, role: string } }, @Param('id') id: string): Promise<{ result: string }> {
+  async remove(@Request() req: ExpressRequest & { user: { employeeId: string, role: string } }, @Param('id') id: string): Promise<{ result: string }> {
     try {
       // only HRD Admins can access this
       const role: string = req.user.role;
+      if (req.user.employeeId === id) {
+        throw new UnauthorizedException('You cannot delete your own account');
+      }
       if (role !== 'Admin HRD') {
         throw new UnauthorizedException('You are unauthorized to access this');
       } else {
