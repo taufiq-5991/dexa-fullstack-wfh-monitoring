@@ -36,6 +36,10 @@ const EmployeeDetail = ({ employee }) => {
             <td>: {employee.position}</td>
           </tr>
           <tr>
+            <td>Role</td>
+            <td>: {employee.roleName}</td>
+          </tr>
+          <tr>
             <td>Status</td>
             <td>: {employee.status}</td>
           </tr>

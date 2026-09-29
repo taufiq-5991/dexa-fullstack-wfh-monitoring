@@ -62,16 +62,26 @@ const EmployeeForm = ({ onClose, initialData = {}, isEditMode = false }) => {
         <form onSubmit={handleSubmit}>
           <h2>{isEditMode ? 'Edit Employee' : 'Create Employee'}</h2>
           <input name="fullName" placeholder="Full Name" value={formData.fullName} onChange={(e) => setFormData({ ...formData, fullName: e.target.value })} />
-          <input name="employeeCode" placeholder="Employee Code" value={initialData.employeeCode || ''} disabled={isEditMode} />
+          <input
+            name="employeeCode"
+            placeholder="Employee Code"
+            value={isEditMode ? initialData.employeeCode || '' : formData.employeeCode}
+            onChange={(e) => setFormData({ ...formData, employeeCode: e.target.value })}
+            disabled={isEditMode} // Disable only in edit mode
+          />
           <input name="username" placeholder="Username" value={formData.username} onChange={(e) => setFormData({ ...formData, username: e.target.value })} />
           <input type="password" name="password" placeholder="Password" onChange={(e) => setFormData({ ...formData, password: e.target.value })} />
           <input name="email" placeholder="Email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
           <input name="phoneNumber" placeholder="Phone Number" value={formData.phoneNumber} onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })} />
           <input name="department" placeholder="Department" value={formData.department} onChange={(e) => setFormData({ ...formData, department: e.target.value })} />
-          <input name="position" placeholder="Position" value={formData.position} onChange={(e) => setFormData({ ...formData, position: e.target.value })} />
-          <select name="roleId" value={formData.roleId} onChange={(e) => setFormData({ ...formData, roleId: e.target.value })}>
+          <select
+            name="roleId"
+            value={formData.roleId} // Pre-select the role based on formData.roleId
+            onChange={(e) => setFormData({ ...formData, roleId: e.target.value })}
+          >
             <option value="">Select Role</option>
             {roles.map((role) => (
+              // option should be selected according to current role ID
               <option key={role.id} value={role.id}>
                 {role.roleName}
               </option>
