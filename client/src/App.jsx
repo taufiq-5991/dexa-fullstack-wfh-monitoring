@@ -1,24 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import AdminMonitoringPage from './pages/AdminMonitoringPage';
 import ProtectedRoute from './components/Shared/ProtectedRoute';
 import Header from './components/Shared/Header';
-import Sidebar from './components/Shared/Sidebar';
+import Navbar from './components/Shared/Navbar';
 import { AuthProvider } from './contexts/AuthContext';
 
 const App = () => {
-  const [isSidebarOpen, setSidebarOpen] = useState(true);
-
-  const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
-
   return (
     <AuthProvider>
       <Router>
-        <Header toggleSidebar={toggleSidebar} />
-        <Sidebar isOpen={isSidebarOpen} />
-        <main>
+        <Header  style={{ margin: '25px', width: '90%' }} />
+        <Navbar/>
+        <main style={{ margin: '25px', width: '90%'}}>
           <Routes>
             <Route path="/login" element={<LoginPage />} />
             <Route

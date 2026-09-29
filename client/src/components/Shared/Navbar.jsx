@@ -1,16 +1,25 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import LogoutButton from '../Auth/LogoutButton';
+import { useAuth } from '../../contexts/AuthContext';
 
 const Navbar = () => {
+  const { user } = useAuth();
+
   return (
-    <nav>
-      <ul>
-        <li><Link to="/attendance">Attendance</Link></li>
-        <li><Link to="/employees">Employees</Link></li>
-        <li><LogoutButton /></li>
-      </ul>
-    </nav>
+    <aside style={{background: '#dddddd'  }}>
+      <table style={{ margin: '25px', padding: '10px'}}>
+        <tr>
+          <td>
+            <li><Link to="/dashboard">My Attendances</Link></li>
+          </td>
+          {user?.role === 'Admin HRD' && (
+            <>
+              <td><Link to="/admin-monitoring">Admin Monitoring</Link></td>
+            </>
+          )}
+        </tr>
+      </table>
+    </aside>
   );
 };
 

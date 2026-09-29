@@ -13,10 +13,17 @@ const Header = ({ toggleSidebar }) => {
 
   return (
     <header>
-      <button onClick={toggleSidebar}>Toggle Sidebar</button>
       <div>
-        <span>{user?.name} - {user?.position}</span>
-        <button onClick={handleLogout}>Logout</button>
+        <table style={{marginLeft: 'auto', marginRight: '0px'}}>
+          <tr>
+            <td>
+              <span>Hello, {user?.fullName ?? user?.username}</span>
+            </td>
+            <td>
+              <button onClick={handleLogout}>Logout</button>
+            </td>
+          </tr>
+        </table>
       </div>
     </header>
   );
