@@ -58,6 +58,7 @@ export class AuthService {
                 employeeId: findUser.employeeId,
                 employeeCode: getEmployee.employeeCode,
                 username: findUser.username,
+                fullName: getEmployee.fullName,
                 role: getRole.roleName,
             }
             if (!jwtSecret) {
@@ -70,6 +71,7 @@ export class AuthService {
                 employeeCode: getEmployee.employeeCode,
                 username: findUser.username,
                 role: getRole.roleName,
+                fullName: getEmployee.fullName,
                 token: jwtToken
             }
             return result;
