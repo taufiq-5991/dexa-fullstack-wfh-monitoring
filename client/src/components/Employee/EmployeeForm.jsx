@@ -55,6 +55,7 @@ const EmployeeForm = () => {
     <div>
       <form onSubmit={handleSubmit}>
         <input name="fullName" placeholder="Full Name" onChange={handleChange} />
+        <input name="employeeCode" placeholder="Employee Code" onChange={handleChange} />
         <input name="username" placeholder="Username" onChange={handleChange} />
         <input type="password" name="password" placeholder="Password" onChange={handleChange} />
         <input name="email" placeholder="Email" onChange={handleChange} />
