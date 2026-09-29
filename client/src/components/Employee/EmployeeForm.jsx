@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { createEmployee } from '../../api/employeeApi';
+import { createEmployee, updateEmployee } from '../../api/employeeApi';
 import { getRoles } from '../../api/rolesApi';
 
-const EmployeeForm = ({ onClose }) => {
+const EmployeeForm = ({ onClose, initialData = {}, isEditMode = false }) => {
   const [formData, setFormData] = useState({
-    fullName: '',
-    username: '',
+    fullName: initialData.fullName || '',
+    username: initialData.username || '',
     password: '',
-    email: '',
-    phoneNumber: '',
-    department: '',
-    position: '',
-    roleId: '', // Add roleId to form data
+    email: initialData.email || '',
+    phoneNumber: initialData.phoneNumber || '',
+    department: initialData.department || '',
+    position: initialData.position || '',
+    roleId: initialData.roleId || '',
   });
 
   const [roles, setRoles] = useState([]); // State to store roles
@@ -37,15 +37,20 @@ const EmployeeForm = ({ onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await createEmployee(formData);
-      alert('Employee created successfully!');
+      if (isEditMode) {
+        await updateEmployee(initialData.id, formData); // Update employee
+        alert('Employee updated successfully!');
+      } else {
+        await createEmployee(formData); // Create employee
+        alert('Employee created successfully!');
+      }
       window.location.reload(); // Reload the page after submission
     } catch (error) {
-      console.error('Failed to create employee:', error);
-      setError('Failed to create employee. Please try again.'); // Set error message
-      setIsErrorModalOpen(true); // Open error modal
+      console.error('Failed to save employee:', error);
+      alert('Failed to save employee. Please try again.');
     }
   };
+
 
   const closeModal = () => {
     setIsErrorModalOpen(false); // Close error modal
@@ -55,18 +60,16 @@ const EmployeeForm = ({ onClose }) => {
     <div style={modalStyles}>
       <div style={modalContentStyles}>
         <form onSubmit={handleSubmit}>
-          <h2>Create Employee</h2>
-          <input name="fullName" placeholder="Full Name" onChange={handleChange} />
-          <input name="employeeCode" placeholder="Employee Code" onChange={handleChange} />
-          <input name="username" placeholder="Username" onChange={handleChange} />
-          <input type="password" name="password" placeholder="Password" onChange={handleChange} />
-          <input name="email" placeholder="Email" onChange={handleChange} />
-          <input name="phoneNumber" placeholder="Phone Number" onChange={handleChange} />
-          <input name="department" placeholder="Department" onChange={handleChange} />
-          <input name="position" placeholder="Position" onChange={handleChange} />
-
-          {/* Roles Dropdown */}
-          <select name="roleId" value={formData.roleId} onChange={handleChange}>
+          <h2>{isEditMode ? 'Edit Employee' : 'Create Employee'}</h2>
+          <input name="fullName" placeholder="Full Name" value={formData.fullName} onChange={(e) => setFormData({ ...formData, fullName: e.target.value })} />
+          <input name="employeeCode" placeholder="Employee Code" value={initialData.employeeCode || ''} disabled={isEditMode} />
+          <input name="username" placeholder="Username" value={formData.username} onChange={(e) => setFormData({ ...formData, username: e.target.value })} />
+          <input type="password" name="password" placeholder="Password" onChange={(e) => setFormData({ ...formData, password: e.target.value })} />
+          <input name="email" placeholder="Email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
+          <input name="phoneNumber" placeholder="Phone Number" value={formData.phoneNumber} onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })} />
+          <input name="department" placeholder="Department" value={formData.department} onChange={(e) => setFormData({ ...formData, department: e.target.value })} />
+          <input name="position" placeholder="Position" value={formData.position} onChange={(e) => setFormData({ ...formData, position: e.target.value })} />
+          <select name="roleId" value={formData.roleId} onChange={(e) => setFormData({ ...formData, roleId: e.target.value })}>
             <option value="">Select Role</option>
             {roles.map((role) => (
               <option key={role.id} value={role.id}>
@@ -74,11 +77,8 @@ const EmployeeForm = ({ onClose }) => {
               </option>
             ))}
           </select>
-
-          <div style={{ marginTop: '20px' }}>
-            <button type="submit">Submit</button>
-            <button type="button" onClick={onClose}>Cancel</button>
-          </div>
+          <button type="submit">{isEditMode ? 'Update' : 'Create'}</button>
+          <button type="button" onClick={onClose}>Cancel</button>
         </form>
 
         {/* Error Modal */}
