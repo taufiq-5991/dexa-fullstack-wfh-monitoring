@@ -74,6 +74,7 @@ const EmployeeForm = ({ onClose, initialData = {}, isEditMode = false }) => {
           <input name="email" placeholder="Email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} />
           <input name="phoneNumber" placeholder="Phone Number" value={formData.phoneNumber} onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })} />
           <input name="department" placeholder="Department" value={formData.department} onChange={(e) => setFormData({ ...formData, department: e.target.value })} />
+          <input name="position" placeholder="Position" value={formData.position} onChange={(e) => setFormData({ ...formData, position: e.target.value })} />
           <select
             name="roleId"
             value={formData.roleId} // Pre-select the role based on formData.roleId
