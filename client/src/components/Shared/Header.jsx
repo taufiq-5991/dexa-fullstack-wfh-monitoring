@@ -2,7 +2,7 @@ import React from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
-const Header = ({ toggleSidebar }) => {
+const Header = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -11,7 +11,8 @@ const Header = ({ toggleSidebar }) => {
     navigate('/login'); // Redirect to login page after logout
   };
 
-  return (
+  // only show when logged in
+  return user ? (
     <header>
       <div>
         <table style={{marginLeft: 'auto', marginRight: '0px'}}>
@@ -26,7 +27,7 @@ const Header = ({ toggleSidebar }) => {
         </table>
       </div>
     </header>
-  );
+  ) : (<header></header>);
 };
 
 export default Header;

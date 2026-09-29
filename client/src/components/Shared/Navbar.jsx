@@ -5,7 +5,8 @@ import { useAuth } from '../../contexts/AuthContext';
 const Navbar = () => {
   const { user } = useAuth();
 
-  return (
+  // only show when logged in
+  return user ? (
     <aside style={{background: '#dddddd'  }}>
       <table style={{ margin: '25px', padding: '10px'}}>
         <tr>
@@ -20,7 +21,7 @@ const Navbar = () => {
         </tr>
       </table>
     </aside>
-  );
+  ) : (<aside></aside>);
 };
 
 export default Navbar;
