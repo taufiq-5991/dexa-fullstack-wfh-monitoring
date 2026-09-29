@@ -9,7 +9,7 @@ const AttendanceList = () => {
     const fetchAttendances = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/attendances/my-attendances`, {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/${process.env.REACT_APP_API_URL_VERSION}/attendances/my-attendances`, {
           headers: { Authorization: `${token}` },
         });
         setAttendances(response.data);
@@ -23,7 +23,6 @@ const AttendanceList = () => {
 
   return (
     <div>
-      
       <table style={tableStyles}>
         <thead>
           <tr>
@@ -36,8 +35,34 @@ const AttendanceList = () => {
           {attendances.map((attendance) => (
             <tr key={attendance.id}>
               <td>{attendance.attendanceDate}</td>
-              <td>{attendance?.clockIn ? dayjs(attendance.clockIn).format('HH:mm:ss') : 'N/A'}</td>
-              <td>{attendance?.clockOut ? dayjs(attendance.clockOut).format('HH:mm:ss') : 'N/A'}</td>
+              <td>
+                {attendance?.clockIn ? (
+                  <a
+                    href={`${process.env.REACT_APP_API_URL}/${attendance.photoPath}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ textDecoration: 'none', color: 'blue', cursor: 'pointer' }}
+                  >
+                    {dayjs(attendance.clockIn).format('HH:mm:ss')}
+                  </a>
+                ) : (
+                  'N/A'
+                )}
+              </td>
+              <td>
+                {attendance?.clockOut ? (
+                  <a
+                  href={`${process.env.REACT_APP_API_URL}/${attendance.photoPathOut}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ textDecoration: 'none', color: 'blue', cursor: 'pointer' }}
+                  >
+                    {dayjs(attendance.clockOut).format('HH:mm:ss')}
+                  </a>
+                ) : (
+                  'N/A'
+                )}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -52,4 +77,5 @@ const tableStyles = {
   borderCollapse: 'collapse',
   marginTop: '20px',
 };
+
 export default AttendanceList;
