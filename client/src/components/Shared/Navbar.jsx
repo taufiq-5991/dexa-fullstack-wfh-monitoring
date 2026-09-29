@@ -50,11 +50,16 @@ const linkStyles = {
   textDecoration: 'none',
   color: '#000',
   fontWeight: 'bold',
+  border: '2px solid transparent',
+  borderRadius: '10px', 
+  padding: '5px',
 };
 
 const activeLinkStyles = {
-  color: '#007bff', // Highlight current page
-  textDecoration: 'underline',
+  color: '#000', // Highlight current page
+  border: '2px solid #000',
+  borderRadius: '10px', 
+  padding: '5px',
 };
 
 export default Navbar;
