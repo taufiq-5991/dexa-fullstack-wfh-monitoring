@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import dayjs from 'dayjs';
 
 const AttendanceList = () => {
   const [attendances, setAttendances] = useState([]);
@@ -22,15 +23,33 @@ const AttendanceList = () => {
 
   return (
     <div>
-      <ul>
-        {attendances.map((attendance) => (
-          <li key={attendance.id}>
-            {attendance.attendanceDate} - Clock In: {attendance.clockIn || 'N/A'} - Clock Out: {attendance.clockOut || 'N/A'}
-          </li>
-        ))}
-      </ul>
+      
+      <table style={tableStyles}>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Clock In</th>
+            <th>Clock Out</th>
+          </tr>
+        </thead>
+        <tbody>
+          {attendances.map((attendance) => (
+            <tr key={attendance.id}>
+              <td>{attendance.attendanceDate}</td>
+              <td>{attendance?.clockIn ? dayjs(attendance.clockIn).format('HH:mm:ss') : 'N/A'}</td>
+              <td>{attendance?.clockOut ? dayjs(attendance.clockOut).format('HH:mm:ss') : 'N/A'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
 
+// Table styles
+const tableStyles = {
+  width: '80%',
+  borderCollapse: 'collapse',
+  marginTop: '20px',
+};
 export default AttendanceList;
