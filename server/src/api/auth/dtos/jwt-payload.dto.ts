@@ -18,6 +18,9 @@ export class JWTPayloadDto {
     @IsString()
     username: string;
 
+    @IsString()
+    fullName: string;
+
     @IsNotEmpty()
     @IsString()
     role: string;
