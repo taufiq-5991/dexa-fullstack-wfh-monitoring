@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpStatus, UseGuards, Headers } from '@nestjs/common';
+import { Controller, Post, Body, HttpStatus, UseGuards, Headers, Get } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ApiResponseWrapper } from '@/common/decorators/swagger/wrapper-response.decorator';
 import { ErrorResponse } from '@/common/response/error.response';
@@ -43,11 +43,14 @@ export class AuthController {
         statusCode: HttpStatus.UNPROCESSABLE_ENTITY,
         message: 'Error',
     })
-    @Post('verifyToken')
+    @Get('verifyToken')
     async verifyToken(@Headers('Authorization') authHeader: string): Promise<JWTPayloadDto> {
         try {
             // Extract the token from the Authorization header
-            const token = authHeader?.split(' ')[1]; // Remove "Bearer" prefix
+            let token = authHeader;
+            if (authHeader.startsWith("Bearer ")) {
+                token = authHeader.substring(7);
+            }
             if (!token) {
                 throw new Error('Token not provided');
             }

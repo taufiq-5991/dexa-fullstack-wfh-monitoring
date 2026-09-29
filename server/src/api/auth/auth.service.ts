@@ -53,7 +53,6 @@ export class AuthService {
 
             const jwtSecret = this.configService.get<string>('JWT_SECRET');
             const tokenExpiry = this.configService.get<number>('TOKEN_EXPIRY');
-            console.log({tokenExpiry})
             const jwtPayload: JWTPayloadDto = {
                 userId: findUser.id,
                 employeeId: findUser.employeeId,
