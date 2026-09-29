@@ -102,7 +102,6 @@ export class AttendancesController {
   async findAll(@Request() req: ExpressRequest & { user: { role: string } }): Promise<Attendance[]> {
     // only HRD Admins can access this
     const role: string = req.user.role;
-    console.log({role})
     if (role !== 'Admin HRD') {
       throw new UnauthorizedException('You are unauthorized to access this');
     } else {
