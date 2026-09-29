@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getEmployees, getEmployeesDetail, updateEmployee, deleteEmployee } from '../../api/employeeApi';
+import { getEmployees, getEmployeesDetail, deleteEmployee } from '../../api/employeeApi';
 import EmployeeDetail from './EmployeeDetail';
 import EmployeeForm from './EmployeeForm';
 
@@ -105,8 +105,8 @@ const EmployeeList = () => {
               <a onClick={() => handleSort('position')}>↕️</a>
             </th>
             <th>
-              Status
-              <a onClick={() => handleSort('status')}>↕️</a>
+              Role
+              <a onClick={() => handleSort('roleName')}>↕️</a>
             </th>
             <th>Actions</th>
           </tr>
@@ -118,7 +118,7 @@ const EmployeeList = () => {
               <td>{employee.employeeCode}</td>
               <td>{employee.department}</td>
               <td>{employee.position}</td>
-              <td>{employee.status}</td>
+              <td>{employee.roleName}</td>
               <td>
                 <button style={{ marginRight: '12px' }} onClick={() => handleViewDetail(employee)}>
                   View Detail

@@ -15,7 +15,7 @@ const EmployeeForm = ({ onClose, initialData = {}, isEditMode = false }) => {
   });
 
   const [roles, setRoles] = useState([]); // State to store roles
-  const [error, setError] = useState(null); // State to store error message
+  const [error] = useState(null); // State to store error message
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false); // State to control error modal visibility
 
   useEffect(() => {
@@ -29,10 +29,6 @@ const EmployeeForm = ({ onClose, initialData = {}, isEditMode = false }) => {
     };
     fetchRoles();
   }, []);
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
