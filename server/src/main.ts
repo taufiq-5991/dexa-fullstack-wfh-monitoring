@@ -11,6 +11,14 @@ import { join } from 'path';
 async function bootstrap() {
   // Create the hybrid application (HTTP + Microservice)
   const app = await NestFactory.create(AppModule);
+
+  // Enable CORS
+  app.enableCors({
+    origin: process.env.FRONTEND_URL,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true, // Allow cookies and credentials
+  });
+
   app.enableVersioning({
     type: VersioningType.URI,
     defaultVersion: '1',
